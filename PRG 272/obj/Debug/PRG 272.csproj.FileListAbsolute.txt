@@ -1,0 +1,11 @@
+C:\Users\BC-STUDENT\Documents\PRG272 Project\PRG2781---Project---group10\PRG 272\bin\Debug\animals.txt
+C:\Users\BC-STUDENT\Documents\PRG272 Project\PRG2781---Project---group10\PRG 272\bin\Debug\PRG 272.exe.config
+C:\Users\BC-STUDENT\Documents\PRG272 Project\PRG2781---Project---group10\PRG 272\bin\Debug\PRG 272.exe
+C:\Users\BC-STUDENT\Documents\PRG272 Project\PRG2781---Project---group10\PRG 272\bin\Debug\PRG 272.pdb
+C:\Users\BC-STUDENT\Documents\PRG272 Project\PRG2781---Project---group10\PRG 272\obj\Debug\PRG 272.csproj.AssemblyReference.cache
+C:\Users\BC-STUDENT\Documents\PRG272 Project\PRG2781---Project---group10\PRG 272\obj\Debug\PRG_272.Form1.resources
+C:\Users\BC-STUDENT\Documents\PRG272 Project\PRG2781---Project---group10\PRG 272\obj\Debug\PRG_272.Properties.Resources.resources
+C:\Users\BC-STUDENT\Documents\PRG272 Project\PRG2781---Project---group10\PRG 272\obj\Debug\PRG 272.csproj.GenerateResource.cache
+C:\Users\BC-STUDENT\Documents\PRG272 Project\PRG2781---Project---group10\PRG 272\obj\Debug\PRG 272.csproj.CoreCompileInputs.cache
+C:\Users\BC-STUDENT\Documents\PRG272 Project\PRG2781---Project---group10\PRG 272\obj\Debug\PRG 272.exe
+C:\Users\BC-STUDENT\Documents\PRG272 Project\PRG2781---Project---group10\PRG 272\obj\Debug\PRG 272.pdb
