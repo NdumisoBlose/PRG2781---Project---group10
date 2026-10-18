@@ -293,5 +293,138 @@ namespace PRG_272
             dgvAnimals.ClearSelection();
             SetEditMode(false);
         }
+        
+
+        // Deletes the selected animal after confirmation and saves the remaining records.
+        private void btnDelete_Click(object sender, EventArgs e)
+        {  
+            // Require a selected row before continuing.
+            if (dgvAnimals.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(
+                    "Please select an animal to delete.",
+                    "No Animal Selected",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            // Get the selected animal ID from the first grid column.
+            string animalId = Convert.ToString(
+                dgvAnimals.SelectedRows[0].Cells[0].Value)?.Trim();
+
+            if (string.IsNullOrWhiteSpace(animalId))
+            {
+                MessageBox.Show(
+                    "The selected row has no valid animal ID.",
+                    "Invalid Selection",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            // Find the actual record in the existing animals list.
+            Animal animalToDelete = animals.Find(
+                a => a.AnimalID.Equals(
+                    animalId, StringComparison.OrdinalIgnoreCase));
+
+            if (animalToDelete == null)
+            {
+                MessageBox.Show(
+                    "The selected animal could not be found. Reload the records and try again.",
+                    "Animal Not Found",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            // Confirm the deletion before changing anything.
+            DialogResult answer = MessageBox.Show(
+                $"Are you sure you want to delete {animalToDelete.AnimalID} " +
+                $"({animalToDelete.Name})?\n\nThis action cannot be undone.",
+                "Confirm Animal Deletion",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+
+            if (answer != DialogResult.Yes)
+            {
+                return;
+            }
+
+            // Prepare the remaining records without changing the current list.
+            List<Animal> remainingAnimals = animals
+                .Where(a => a != animalToDelete)
+                .ToList();
+
+            List<string> remainingLines = remainingAnimals
+                .Select(a => FormatLine(
+                    a.AnimalID,
+                    a.Name,
+                    a.Species,
+                    a.Age,
+                    a.RecoveryScore,
+                    a.Status,
+                    a.HousingUnit))
+                .ToList();
+
+            try
+            {
+                // Save the remaining records before updating the in-memory list.
+                File.WriteAllLines(
+                    animalsFilePath,
+                    remainingLines,
+                    new UTF8Encoding(false));
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show(
+                    "Permission denied. Check whether animals.txt or its folder is read-only.",
+                    "File Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show(
+                    $"Could not update animals.txt. The file may be in use.\n{ex.Message}",
+                    "File Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
+
+            // The file was saved successfully, so update the application's data.
+            bool deletedAnimalWasLoaded = selectedAnimal == animalToDelete;
+
+            animals.Remove(animalToDelete);
+            RefreshGrid();
+
+            // Clear the form only if the deleted animal was loaded for editing.
+            if (deletedAnimalWasLoaded)
+            {
+                ClearForm();
+            }
+            else
+            {
+                dgvAnimals.ClearSelection();
+            }
+
+            MessageBox.Show(
+                $"Animal {animalToDelete.AnimalID} ({animalToDelete.Name}) was deleted successfully.",
+                "Deletion Successful",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+        }
+
+        
+       
     }
 }
+
