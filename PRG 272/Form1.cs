@@ -293,5 +293,11 @@ namespace PRG_272
             dgvAnimals.ClearSelection();
             SetEditMode(false);
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DeleteForm deleteForm = new DeleteForm();
+            deleteForm.Show();
+        }
     }
 }
