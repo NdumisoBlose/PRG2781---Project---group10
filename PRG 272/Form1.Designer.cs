@@ -34,6 +34,7 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnSearch = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnSaveChanges = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -47,7 +48,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimals)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -85,7 +85,7 @@
             // txtSearch
             // 
             this.txtSearch.Location = new System.Drawing.Point(154, 69);
-            this.txtSearch.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtSearch.Margin = new System.Windows.Forms.Padding(2);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(121, 20);
             this.txtSearch.TabIndex = 3;
@@ -93,7 +93,7 @@
             // btnSearch
             // 
             this.btnSearch.Location = new System.Drawing.Point(307, 72);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(2);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(56, 19);
             this.btnSearch.TabIndex = 4;
@@ -118,18 +118,28 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(54, 402);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(430, 272);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Animal Details";
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(323, 213);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 15;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // btnClear
             // 
             this.btnClear.Location = new System.Drawing.Point(226, 213);
-            this.btnClear.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(2);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(56, 24);
             this.btnClear.TabIndex = 14;
@@ -140,7 +150,7 @@
             // btnSaveChanges
             // 
             this.btnSaveChanges.Location = new System.Drawing.Point(101, 213);
-            this.btnSaveChanges.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSaveChanges.Margin = new System.Windows.Forms.Padding(2);
             this.btnSaveChanges.Name = "btnSaveChanges";
             this.btnSaveChanges.Size = new System.Drawing.Size(95, 24);
             this.btnSaveChanges.TabIndex = 13;
@@ -151,7 +161,7 @@
             // btnAdd
             // 
             this.btnAdd.Location = new System.Drawing.Point(15, 213);
-            this.btnAdd.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(2);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(56, 24);
             this.btnAdd.TabIndex = 6;
@@ -161,7 +171,7 @@
             // txtAnimalId
             // 
             this.txtAnimalId.Location = new System.Drawing.Point(100, 33);
-            this.txtAnimalId.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtAnimalId.Margin = new System.Windows.Forms.Padding(2);
             this.txtAnimalId.Name = "txtAnimalId";
             this.txtAnimalId.Size = new System.Drawing.Size(183, 20);
             this.txtAnimalId.TabIndex = 12;
@@ -169,7 +179,7 @@
             // txtName
             // 
             this.txtName.Location = new System.Drawing.Point(100, 63);
-            this.txtName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtName.Margin = new System.Windows.Forms.Padding(2);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(183, 20);
             this.txtName.TabIndex = 11;
@@ -177,7 +187,7 @@
             // txtSpecies
             // 
             this.txtSpecies.Location = new System.Drawing.Point(100, 93);
-            this.txtSpecies.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtSpecies.Margin = new System.Windows.Forms.Padding(2);
             this.txtSpecies.Name = "txtSpecies";
             this.txtSpecies.Size = new System.Drawing.Size(183, 20);
             this.txtSpecies.TabIndex = 10;
@@ -185,7 +195,7 @@
             // txtAge
             // 
             this.txtAge.Location = new System.Drawing.Point(100, 124);
-            this.txtAge.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtAge.Margin = new System.Windows.Forms.Padding(2);
             this.txtAge.Name = "txtAge";
             this.txtAge.Size = new System.Drawing.Size(183, 20);
             this.txtAge.TabIndex = 9;
@@ -193,7 +203,7 @@
             // txtScore
             // 
             this.txtScore.Location = new System.Drawing.Point(100, 154);
-            this.txtScore.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtScore.Margin = new System.Windows.Forms.Padding(2);
             this.txtScore.Name = "txtScore";
             this.txtScore.Size = new System.Drawing.Size(183, 20);
             this.txtScore.TabIndex = 8;
@@ -248,16 +258,6 @@
             this.label3.TabIndex = 3;
             this.label3.Text = "Animal ID:";
             // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(323, 213);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 15;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -271,6 +271,7 @@
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimals)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -287,6 +288,7 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grpSummary;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
@@ -301,6 +303,15 @@
         private System.Windows.Forms.Button btnSaveChanges;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnSummary;
+        private System.Windows.Forms.Label lblTotalAnimals;
+        private System.Windows.Forms.Label lblAvgAge;
+        private System.Windows.Forms.Label lblAvgScore;
+        private System.Windows.Forms.Label lblCritical;
+        private System.Windows.Forms.Label lblSerious;
+        private System.Windows.Forms.Label lblStable;
+        private System.Windows.Forms.Label lblRecovering;
+        private System.Windows.Forms.Label lblReleaseReady;
     }
 }
 

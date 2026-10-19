@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace PRG_272
 {
@@ -17,12 +18,15 @@ namespace PRG_272
         private List<Animal> animals = new List<Animal>();
 
         private readonly string animalsFilePath = Path.Combine(Application.StartupPath,"animals.txt");
+        private readonly string summaryFilePath = Path.Combine(Application.StartupPath, "summary.txt");
         public Form1()
         {
             InitializeComponent();
             SetupDataGridView();
             LoadAnimals();
+            GenerateSummaryReport();
         }
+            
 
         
         private void SetupDataGridView()
@@ -423,8 +427,87 @@ namespace PRG_272
                 MessageBoxIcon.Information);
         }
 
-        
-       
+        private void GenerateSummaryReport()
+        {
+            int total = animals.Count;
+
+            //Counts per status
+            int criticalCount = animals.Count(a => a.Status.Equals("Critical", StringComparison.OrdinalIgnoreCase));
+            int seriousCount = animals.Count(a => a.Status.Equals("Serious", StringComparison.OrdinalIgnoreCase));
+            int stableCount = animals.Count(a => a.Status.Equals("Stable", StringComparison.OrdinalIgnoreCase));
+            int recoveringCount = animals.Count(a => a.Status.Equals("Recovering", StringComparison.OrdinalIgnoreCase));
+            int releaseReadyCount = animals.Count(a => a.Status.Equals("Release-Ready", StringComparison.OrdinalIgnoreCase));
+
+            string avgAgeStr;
+            string avgScoreStr;
+
+            if (total == 0)
+            {
+                avgAgeStr = "N/A";
+                avgScoreStr = "N/A";
+            }
+            else
+            {
+                double avgAge = animals.Average(a => a.Age);
+                double avgScore = animals.Average(a => a.RecoveryScore);
+
+                avgAgeStr = avgAge.ToString("0.00", CultureInfo.InvariantCulture);
+                avgScoreStr = avgScore.ToString("0.00", CultureInfo.InvariantCulture);
+            }
+
+            // Update UI Labels
+            lblTotalAnimals.Text = $"Total animals: {total}";
+            lblAvgAge.Text = $"Average age (years): {avgAgeStr}";
+            lblAvgScore.Text = $"Average recovery score: {avgScoreStr}";
+            lblCritical.Text = $"Critical: {criticalCount}";
+            lblSerious.Text = $"Serious: {seriousCount}";
+            lblStable.Text = $"Stable: {stableCount}";
+            lblRecovering.Text = $"Recovering: {recoveringCount}";
+            lblReleaseReady.Text = $"Release-Ready: {releaseReadyCount}";
+
+            // Write summary.txt
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("BAOBAB RIDGE WILDLIFE REHABILITATION CENTRE");
+            sb.AppendLine("ANIMAL SUMMARY REPORT");
+            sb.AppendLine($"Generated: {timestamp}");
+            sb.AppendLine("Total animals:");
+            sb.AppendLine(total.ToString());
+            sb.AppendLine("Average age (years):");
+            sb.AppendLine(avgAgeStr);
+            sb.AppendLine("Average recovery score:");
+            sb.AppendLine(avgScoreStr);
+            sb.AppendLine("Animals per status:");
+            sb.AppendLine("Critical:");
+            sb.AppendLine(criticalCount.ToString());
+            sb.AppendLine("Serious:");
+            sb.AppendLine(seriousCount.ToString());
+            sb.AppendLine("Stable:");
+            sb.AppendLine(stableCount.ToString());
+            sb.AppendLine("Recovering:");
+            sb.AppendLine(recoveringCount.ToString());
+            sb.AppendLine("Release-Ready:");
+            sb.AppendLine(releaseReadyCount.ToString());
+
+            try
+            {
+                File.WriteAllText(summaryFilePath, sb.ToString(), new UTF8Encoding(false));
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("Permission denied when writing to summary.txt.", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show($"Could not create summary.txt.\n{ex.Message}", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
