@@ -427,6 +427,53 @@ namespace PRG_272
                 MessageBoxIcon.Information);
         }
 
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            string id = txtAnimalId.Text.Trim().ToUpper();
+
+            if (!IsValidAnimalId(id))
+            {
+                MessageBox.Show("Animal ID must be in the format 'WR-1234'.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAnimalId.Focus();
+                return;
+            }
+
+            if (animals.Any(a => a.AnimalID.Equals(id, StringComparison.OrdinalIgnoreCase)))
+            {
+                MessageBox.Show("An animal with this ID already exists.", "Duplicate ID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAnimalId.Focus();
+                return;
+            }
+
+            if (!ValidateInputs(out string name, out string species, out int age, out int score)) return;
+
+            Classify(score, out string status, out string housing);
+
+            string newLine = FormatLine(id, name, species, age, score, status, housing);
+
+            try
+            {
+                File.AppendAllLines(animalsFilePath, new[] { newLine }, new UTF8Encoding(false));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not write to animals.txt: {ex.Message}", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            animals.Add(new Animal(id, name, species, age, score, status, housing));
+            RefreshGrid();
+            GenerateSummaryReport();
+            ClearForm();
+            MessageBox.Show($"Animal added successfully!\nStatus: {status}\nHousing: {housing}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnSummary_Click(object sender, EventArgs e)
+        {
+            GenerateSummaryReport();
+            MessageBox.Show("Summary report updated and written to summary.txt successfully.", "Summary Generated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         private void GenerateSummaryReport()
         {
             int total = animals.Count;
