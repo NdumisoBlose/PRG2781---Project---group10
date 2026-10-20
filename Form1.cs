@@ -633,6 +633,14 @@ namespace PRG_272
             {
                 MessageBox.Show($"Unexpected error while adding animal.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            private void btnSummary_Click(object sender, EventArgs e)
+            {
+                GenerateSummaryReport();
+                MessageBox.Show("Summary report updated successfully on form and written to summary.txt.",
+                                "Summary Generated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
         }
     }
 }
