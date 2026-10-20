@@ -552,15 +552,7 @@ namespace PRG_272
                 avgScoreStr = avgScore.ToString("0.00", CultureInfo.InvariantCulture);
             }
 
-            // Update UI Labels
-           /* lblTotalAnimals.Text = $"Total animals: {total}";
-            lblAvgAge.Text = $"Average age (years): {avgAgeStr}";
-            lblAvgScore.Text = $"Average recovery score: {avgScoreStr}";
-            lblCritical.Text = $"Critical: {criticalCount}";
-            lblSerious.Text = $"Serious: {seriousCount}";
-            lblStable.Text = $"Stable: {stableCount}";
-            lblRecovering.Text = $"Recovering: {recoveringCount}";
-            lblReleaseReady.Text = $"Release-Ready: {releaseReadyCount}";*/
+           
 
             // Write summary.txt
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
