@@ -288,7 +288,7 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox grpSummary;
+
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
@@ -303,15 +303,7 @@
         private System.Windows.Forms.Button btnSaveChanges;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnSummary;
-        private System.Windows.Forms.Label lblTotalAnimals;
-        private System.Windows.Forms.Label lblAvgAge;
-        private System.Windows.Forms.Label lblAvgScore;
-        private System.Windows.Forms.Label lblCritical;
-        private System.Windows.Forms.Label lblSerious;
-        private System.Windows.Forms.Label lblStable;
-        private System.Windows.Forms.Label lblRecovering;
-        private System.Windows.Forms.Label lblReleaseReady;
-    }
+
+    }  
 }
 
