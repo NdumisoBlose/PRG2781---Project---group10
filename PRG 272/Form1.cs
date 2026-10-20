@@ -17,7 +17,7 @@ namespace PRG_272
     {
         private List<Animal> animals = new List<Animal>();
 
-        private readonly string animalsFilePath = Path.Combine(Application.StartupPath,"animals.txt");
+        private readonly string animalsFilePath = Path.Combine(Application.StartupPath, "animals.txt");
         private readonly string summaryFilePath = Path.Combine(Application.StartupPath, "summary.txt");
         public Form1()
         {
@@ -26,9 +26,9 @@ namespace PRG_272
             LoadAnimals();
             GenerateSummaryReport();
         }
-            
 
-        
+
+
         private void SetupDataGridView()
         {
             dgvAnimals.ReadOnly = true;
@@ -96,9 +96,9 @@ namespace PRG_272
 
                     animals.Add(new Animal(id, name, species, age, score, status, housing));
                 }
-                if (skippedLines > 0 )
+                if (skippedLines > 0)
                 {
-                    MessageBox.Show($"{skippedLines} line(s) where skipped because they where malformed.", "Loading Complete", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    MessageBox.Show($"{skippedLines} line(s) where skipped because they where malformed.", "Loading Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             catch (UnauthorizedAccessException)
@@ -212,6 +212,99 @@ namespace PRG_272
             txtScore.Text = animal.RecoveryScore.ToString();
             SetEditMode(true);
         }
+        private void ClassifyAnimal(int score, out string status, out string housingUnit)
+        {
+            if (score >= 0 && score <= 19)
+            {
+                status = "Critical";
+                housingUnit = "Intensive Care Unit";
+            }
+            else if (score >= 20 && score <= 39)
+            {
+                status = "Serious";
+                housingUnit = "High-Dependency Ward";
+            }
+            else if (score >= 40 && score <= 59)
+            {
+                status = "Stable";
+                housingUnit = "Recovery Ward";
+            }
+            else if (score >= 60 && score <= 79)
+            {
+                status = "Recovering";
+                housingUnit = "Outdoor Enclosure";
+            }
+            else // score >= 80
+            {
+                status = "Release-Ready";
+                housingUnit = "Pre-Release Camp";
+            }
+        }
+        private bool ValidateInputs(out string animalId, out string name, out string species, out int age, out int score)
+        {
+            animalId = txtAnimalId.Text.Trim().ToUpper();
+            name = txtName.Text.Trim();
+            species = txtSpecies.Text.Trim();
+            string ageText = txtAge.Text.Trim();
+            string scoreText = txtScore.Text.Trim();
+
+            if (string.IsNullOrEmpty(animalId))
+            {
+                MessageBox.Show("Animal ID is required.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAnimalId.Focus();
+                age = 0; score = 0;
+                return false;
+            }
+
+            if (!IsValidAnimalId(animalId))
+            {
+                MessageBox.Show("Animal ID must be in the format WR- followed by exactly 4 digits (e.g., WR-1234).", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAnimalId.Focus();
+                age = 0; score = 0;
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(name) || name.Length > 30)
+            {
+                MessageBox.Show("Name must be 1-30 characters .", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtName.Focus();
+                age = 0; score = 0;
+                return false;
+            }
+
+            if (name.Contains("|"))
+            {
+                MessageBox.Show("Name cannot contain the '|' character.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtName.Focus();
+                age = 0; score = 0;
+                return false;
+            }
+
+            if (!int.TryParse(ageText, out age) || age < 0 || age > 100)
+            {
+                MessageBox.Show("Age must be a whole number between 0 and 100.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAge.Focus();
+                score = 0;
+                return false;
+            }
+
+            if (!int.TryParse(scoreText, out score) || score < 0 || score > 100)
+            {
+                MessageBox.Show("Recovery Score must be a whole number between 0 and 100.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtScore.Focus();
+                return false;
+            }
+            return true;
+        }
+        private void ClearInputFields()
+        {
+            txtAnimalId.Clear();
+            txtName.Clear();
+            txtSpecies.Clear();
+            txtAge.Clear();
+            txtScore.Clear();
+            txtAnimalId.Focus();
+        }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
@@ -297,11 +390,11 @@ namespace PRG_272
             dgvAnimals.ClearSelection();
             SetEditMode(false);
         }
-        
+
 
         // Deletes the selected animal after confirmation and saves the remaining records.
         private void btnDelete_Click(object sender, EventArgs e)
-        {  
+        {
             // Require a selected row before continuing.
             if (dgvAnimals.SelectedRows.Count == 0)
             {
@@ -504,9 +597,38 @@ namespace PRG_272
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
+    
 
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            if (!ValidateInputs(out string animalId, out string name, out string species, out int age, out int score)) return;
+
+            ClassifyAnimal(score, out string status, out string housingUnit);
+
+            Animal newAnimal = new Animal(animalId, name, species, age, score, status, housingUnit);
+            try
+            {
+                File.AppendAllText(animalsFilePath, newAnimal.ToString() + Environment.NewLine);
+
+                animals.Add(newAnimal);
+                RefreshGrid();
+
+                MessageBox.Show($"Animal added successfully.\n\nStatus: {status}\nHousing Unit: {housingUnit}.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearInputFields();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("Permission denied when writing to animals.txt.", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show($"Could not write to animals.txt.\n{ex.Message}", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unexpected error while adding animal.\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
